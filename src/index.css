@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 270 70% 55%;
+    --primary-foreground: 270 95% 97%;
+    --secondary: 240 20% 85%;
+    --secondary-foreground: 240 10% 10%;
+    --muted: 240 20% 85%;
+    --muted-foreground: 240 10% 40%;
+    --accent: 270 60% 65%;
+    --accent-foreground: 270 95% 97%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 10% 85%;
+    --input: 240 10% 85%;
+    --ring: 270 70% 55%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 10% 10%;
+    --sidebar-primary: 270 70% 55%;
+    --sidebar-primary-foreground: 270 95% 97%;
+    --sidebar-accent: 240 20% 85%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 240 10% 85%;
+    --sidebar-ring: 270 70% 55%;
+    
+    /* Transitions */
+    --transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 240 8% 10%;
+    --foreground: 0 0% 98%;
+    --card: 240 8% 15%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 8% 15%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 270 70% 55%;
+    --primary-foreground: 270 95% 97%;
+    --secondary: 240 6% 20%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 20%;
+    --muted-foreground: 240 10% 65%;
+    --accent: 240 6% 20%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 10%;
+    --input: 0 0% 100% / 15%;
+    --ring: 270 60% 40%;
+    --sidebar-background: 240 8% 15%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 270 70% 55%;
+    --sidebar-primary-foreground: 270 95% 97%;
+    --sidebar-accent: 240 6% 20%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 100% / 10%;
+    --sidebar-ring: 270 60% 40%;
+    
+    /* Charts */
+    --chart-1: 270 60% 75%;
+    --chart-2: 270 70% 55%;
+    --chart-3: 270 75% 45%;
+    --chart-4: 270 70% 40%;
+    --chart-5: 270 65% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html {
+    @apply dark;
+  }
+}
+
+@layer utilities {
+  .transition-base {
+    transition: var(--transition-base);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+}
