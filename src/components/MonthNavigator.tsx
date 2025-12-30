@@ -16,7 +16,7 @@ export function MonthNavigator() {
       
       <Button 
         variant="ghost" 
-        className="min-w-[180px] justify-center font-semibold"
+        className="min-w-[120px] sm:min-w-[180px] justify-center font-semibold truncate text-sm sm:text-base"
         onClick={goToCurrentMonth}
       >
         {format(currentMonth, "MMMM 'de' yyyy", { locale: ptBR })}
@@ -27,7 +27,7 @@ export function MonthNavigator() {
       </Button>
 
       {!isCurrentMonth && (
-        <Button variant="secondary" size="sm" onClick={goToCurrentMonth} className="gap-1 ml-2">
+        <Button variant="secondary" size="sm" onClick={goToCurrentMonth} className="gap-1 ml-2 hidden sm:inline-flex">
           <CalendarDays className="h-3 w-3" />
           Hoje
         </Button>

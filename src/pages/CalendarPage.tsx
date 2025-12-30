@@ -108,8 +108,8 @@ export default function CalendarPage() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 space-y-6">
+      <main className="flex-1 overflow-auto pb-28 lg:pb-0 overscroll-y-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="container mx-auto px-4 py-6 sm:p-6 space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
@@ -137,17 +137,8 @@ export default function CalendarPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* Week days header */}
-                <div className="grid grid-cols-7 gap-2">
-                  {weekDays.map((day) => (
-                    <div key={day} className="p-2 text-center text-sm font-semibold text-muted-foreground">
-                      {day}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Calendar days */}
-                <div className="grid grid-cols-7 gap-2">
+                {/* Mobile: list view for better readability */}
+                <div className="space-y-2 sm:hidden">
                   {days.map((day) => {
                     const dayTransactions = getTransactionsForDay(day);
                     const dayTotal = getDayTotal(day);
@@ -158,61 +149,107 @@ export default function CalendarPage() {
                       <button
                         key={day.toString()}
                         onClick={() => handleDayClick(day)}
-                        className={`group relative min-h-[100px] rounded-lg border p-2 text-left transition-colors hover:border-primary ${
-                          isCurrentMonth
-                            ? 'border-border bg-card'
-                            : 'border-transparent bg-muted/30 text-muted-foreground'
+                        className={`w-full flex items-center justify-between gap-3 p-3 rounded-lg transition-colors ${
+                          isCurrentMonth ? 'bg-card border border-border' : 'bg-muted/20 text-muted-foreground'
                         } ${isToday ? 'ring-2 ring-primary' : ''}`}
                       >
-                        <div className="flex items-start justify-between">
-                          <span className={`text-sm font-semibold ${isToday ? 'text-primary' : ''}`}>
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-8 h-8 rounded flex items-center justify-center font-medium ${isToday ? 'text-primary' : ''}`}>
                             {format(day, 'd')}
-                          </span>
-                          {dayTransactions.length > 0 && (
-                            <Badge variant="secondary" className="h-5 px-1.5 text-xs">
-                              {dayTransactions.length}
-                            </Badge>
-                          )}
-                        </div>
-
-                        {dayTransactions.length > 0 && (
-                          <div className="mt-2 space-y-1">
-                            {dayTransactions.slice(0, 2).map((t) => (
-                              <div
-                                key={t.id}
-                                className={`truncate text-xs ${
-                                  t.type === 'income' ? 'text-green-500' : 'text-red-500'
-                                }`}
-                              >
-                                {t.description}
-                              </div>
-                            ))}
-                            {dayTransactions.length > 2 && (
-                              <div className="text-xs text-muted-foreground">
-                                +{dayTransactions.length - 2} mais
-                              </div>
+                          </div>
+                          <div className="min-w-0">
+                            <div className="font-medium text-sm truncate">{format(day, "EEEE, dd 'de' MMMM", { locale: ptBR })}</div>
+                            {dayTransactions.length > 0 && (
+                              <div className="text-xs text-muted-foreground">{dayTransactions.length} transação{dayTransactions.length > 1 ? 's' : ''}</div>
                             )}
                           </div>
-                        )}
+                        </div>
 
-                        {dayTotal !== 0 && (
-                          <div className="absolute bottom-2 right-2">
-                            <span
-                              className={`text-xs font-semibold ${
-                                dayTotal > 0 ? 'text-green-500' : 'text-red-500'
-                              }`}
-                            >
-                              {dayTotal > 0 ? '+' : ''}
-                              {dayTotal.toLocaleString('pt-BR', {
-                                style: 'currency',
-                                currency: 'BRL',
-                              })}
-                            </span>
-                          </div>
-                        )}
+                        <div className={`text-sm font-semibold whitespace-nowrap ${dayTotal > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          {dayTotal !== 0 ? (dayTotal > 0 ? '+' : '') + dayTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : ''}
+                        </div>
                       </button>
                     );
                   })}
+                </div>
+
+                {/* Desktop/Tablet: month grid */}
+                <div className="hidden sm:block">
+                  {/* Week days header */}
+                  <div className="grid grid-cols-7 gap-2">
+                    {weekDays.map((day) => (
+                      <div key={day} className="p-2 text-center text-sm font-semibold text-muted-foreground">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Calendar days */}
+                  <div className="grid grid-cols-7 gap-2">
+                    {days.map((day) => {
+                      const dayTransactions = getTransactionsForDay(day);
+                      const dayTotal = getDayTotal(day);
+                      const isCurrentMonth = isSameMonth(day, currentMonth);
+                      const isToday = isSameDay(day, new Date());
+
+                      return (
+                        <button
+                          key={day.toString()}
+                          onClick={() => handleDayClick(day)}
+                          className={`group relative min-h-[100px] rounded-lg border p-2 text-left transition-colors hover:border-primary ${
+                            isCurrentMonth
+                              ? 'border-border bg-card'
+                              : 'border-transparent bg-muted/30 text-muted-foreground'
+                          } ${isToday ? 'ring-2 ring-primary' : ''}`}
+                        >
+                          <div className="flex items-start justify-between">
+                            <span className={`text-sm font-semibold ${isToday ? 'text-primary' : ''}`}>
+                              {format(day, 'd')}
+                            </span>
+                            {dayTransactions.length > 0 && (
+                              <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+                                {dayTransactions.length}
+                              </Badge>
+                            )}
+                          </div>
+
+                          {dayTransactions.length > 0 && (
+                            <div className="mt-2 space-y-1">
+                              {dayTransactions.slice(0, 2).map((t) => (
+                                <div
+                                  key={t.id}
+                                  className={`truncate text-xs ${t.type === 'income' ? 'text-green-500' : 'text-red-500'}`}
+                                >
+                                  {t.description}
+                                </div>
+                              ))}
+                              {dayTransactions.length > 2 && (
+                                <div className="text-xs text-muted-foreground">
+                                  +{dayTransactions.length - 2} mais
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {dayTotal !== 0 && (
+                            <div className="absolute bottom-2 right-2">
+                              <span
+                                className={`text-xs font-semibold ${
+                                  dayTotal > 0 ? 'text-green-500' : 'text-red-500'
+                                }`}
+                              >
+                                {dayTotal > 0 ? '+' : ''}
+                                {dayTotal.toLocaleString('pt-BR', {
+                                  style: 'currency',
+                                  currency: 'BRL',
+                                })}
+                              </span>
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}

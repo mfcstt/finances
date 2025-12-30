@@ -165,8 +165,8 @@ export default function Reports() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 space-y-6">
+      <main className="flex-1 overflow-auto pb-28 lg:pb-0 overscroll-y-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="container mx-auto px-4 py-6 sm:p-6 space-y-6">
           {/* Header */}
           <div>
             <h1 className="text-3xl font-bold">Relatórios</h1>

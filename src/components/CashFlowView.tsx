@@ -156,40 +156,42 @@ export function CashFlowView() {
                 {item.transactions.map((transaction, idx) => (
                   <div
                     key={transaction.id || `recurring-${idx}`}
-                    className="flex items-center justify-between p-2 rounded bg-background/50"
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 rounded bg-background/50"
                   >
-                    <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-start gap-2 min-w-0">
                       {transaction.type === 'income' ? (
                         <TrendingUp className="h-4 w-4 text-green-500" />
                       ) : (
                         <TrendingDown className="h-4 w-4 text-red-500" />
                       )}
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium">{transaction.description}</span>
-                          {transaction.isRecurring && (
-                            <Badge variant="outline" className="text-xs">
-                              Recorrente
-                            </Badge>
-                          )}
-                          {!transaction.isPaid && (
-                            <Badge variant="outline" className="text-xs text-yellow-500 border-yellow-500">
-                              <Clock className="h-3 w-3 mr-1" />
-                              Pendente
-                            </Badge>
-                          )}
-                          {transaction.isPaid && (
-                            <Badge variant="outline" className="text-xs text-green-500 border-green-500">
-                              <CheckCircle2 className="h-3 w-3 mr-1" />
-                              Pago
-                            </Badge>
-                          )}
+                          <span className="font-medium truncate">{transaction.description}</span>
+                          <div className="hidden sm:flex items-center gap-2">
+                            {transaction.isRecurring && (
+                              <Badge variant="outline" className="text-xs">
+                                Recorrente
+                              </Badge>
+                            )}
+                            {!transaction.isPaid && (
+                              <Badge variant="outline" className="text-xs text-yellow-500 border-yellow-500">
+                                <Clock className="h-3 w-3 mr-1" />
+                                Pendente
+                              </Badge>
+                            )}
+                            {transaction.isPaid && (
+                              <Badge variant="outline" className="text-xs text-green-500 border-green-500">
+                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                Pago
+                              </Badge>
+                            )}
+                          </div>
                         </div>
-                        <span className="text-xs text-muted-foreground">{transaction.category}</span>
+                        <span className="text-xs text-muted-foreground truncate">{transaction.category}</span>
                       </div>
                     </div>
                     <div
-                      className={`font-semibold ${
+                      className={`mt-2 sm:mt-0 sm:ml-3 text-sm sm:text-base font-semibold whitespace-nowrap text-right ${
                         transaction.type === 'income' ? 'text-green-500' : 'text-red-500'
                       }`}
                     >

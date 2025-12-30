@@ -71,3 +71,17 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+---
+
+## Mobile / Responsividade ✅
+
+- A barra lateral foi adaptada para telas pequenas: no desktop ela aparece à esquerda; em telas mobile há uma barra fixa na parte inferior com atalhos e um botão de menu para abrir o drawer com a navegação completa.
+- O conteúdo principal adiciona um padding-bottom (`pb-20`) em telas pequenas para evitar que a barra inferior cubra conteúdo interativo.
+- A tabela em `Transações` usa `overflow-x-auto` para permitir rolagem horizontal em telas estreitas.
+
+Como testar:
+
+1. Rode o projeto (npm run dev) e abra o DevTools do navegador (Ctrl+Shift+I) para alternar para um dispositivo móvel ou ajustar a largura da janela.
+2. Verifique que a barra lateral some e aparece a barra inferior; abra o menu para ver a navegação completa.
+3. Navegue até `Transações` e confirme que a tabela rola horizontalmente se necessário.

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/Sidebar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { TransactionDialog } from '@/components/TransactionDialog';
@@ -10,7 +9,6 @@ import { MonthNavigator } from '@/components/MonthNavigator';
 import { AccountsManager } from '@/components/AccountsManager';
 import { CashFlowView } from '@/components/CashFlowView';
 import { useMonthFilter } from '@/contexts/MonthFilterContext';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { format } from 'date-fns';
 import type { Database } from '@/integrations/supabase/types';
 import { parseDateOnlyLocal } from '@/lib/utils';
@@ -142,10 +140,10 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 space-y-6">
+      <main className="flex-1 overflow-auto pb-28 lg:pb-0 overscroll-y-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="container mx-auto px-4 py-6 sm:p-6 space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <h1 className="text-3xl font-bold">Visão Geral</h1>
             <div className="flex items-center gap-4">
               <MonthNavigator />

@@ -150,8 +150,8 @@ export default function RecurringTransactions() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 space-y-6">
+      <main className="flex-1 overflow-auto pb-28 lg:pb-0 overscroll-y-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="container mx-auto px-4 py-6 sm:p-6 space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
@@ -188,11 +188,11 @@ export default function RecurringTransactions() {
                   {recurringTransactions.map((rt) => (
                     <div
                       key={rt.id}
-                      className="flex items-center justify-between rounded-lg border border-border/50 p-4 hover:bg-accent/50 transition-colors"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-lg border border-border/50 p-4 hover:bg-accent/50 transition-colors"
                     >
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
-                          <p className="font-medium text-lg">{rt.description}</p>
+                          <p className="font-medium text-lg truncate">{rt.description}</p>
                           <Badge variant={rt.type === 'income' ? 'default' : 'destructive'} className="text-xs">
                             {rt.type === 'income' ? 'Entrada' : 'Saída'}
                           </Badge>
@@ -203,43 +203,45 @@ export default function RecurringTransactions() {
                           )}
                         </div>
                         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                          <span>Dia {rt.day_of_month}</span>
-                          <span>•</span>
-                          <span className="capitalize">{rt.category}</span>
+                          <span className="truncate">Dia {rt.day_of_month}</span>
+                          <span className="hidden sm:inline">•</span>
+                          <span className="capitalize truncate max-w-[140px]">{rt.category}</span>
                           {rt.end_date && (
                             <>
-                              <span>•</span>
-                              <span>até {format(parseDateOnlyLocal(rt.end_date) || new Date(rt.end_date), 'dd/MM/yyyy', { locale: ptBR })}</span>
+                              <span className="hidden sm:inline">•</span>
+                              <span className="hidden sm:inline">até {format(parseDateOnlyLocal(rt.end_date) || new Date(rt.end_date), 'dd/MM/yyyy', { locale: ptBR })}</span>
                             </>
                           )}
                           {rt.account_id && accounts.find(a => a.id === rt.account_id) && (
                             <>
-                              <span>•</span>
-                              <span>{accounts.find(a => a.id === rt.account_id)?.name}</span>
+                              <span className="hidden sm:inline">•</span>
+                              <span className="hidden sm:inline">{accounts.find(a => a.id === rt.account_id)?.name}</span>
                             </>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <p className={`text-xl font-bold ${rt.type === 'income' ? 'text-green-500' : 'text-red-500'}`}>
+                      <div className="flex items-center gap-3 mt-3 sm:mt-0 sm:ml-4">
+                        <p className={`text-lg sm:text-xl font-bold whitespace-nowrap ${rt.type === 'income' ? 'text-green-500' : 'text-red-500'}`}>
                           {rt.type === 'income' ? '+' : '-'} R$ {rt.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </p>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleOpenDialog(rt)}
-                          className="h-8 w-8"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => deleteRecurringTransaction(rt.id)}
-                          className="h-8 w-8 text-destructive hover:bg-destructive/10"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleOpenDialog(rt)}
+                            className="h-8 w-8"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteRecurringTransaction(rt.id)}
+                            className="h-8 w-8 text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   ))}

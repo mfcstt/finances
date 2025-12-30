@@ -232,10 +232,10 @@ export default function Transactions() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 space-y-6">
+      <main className="flex-1 overflow-auto pb-28 lg:pb-0 overscroll-y-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="container mx-auto px-4 py-6 sm:p-6 space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold">Transações</h1>
               <p className="text-muted-foreground">Gerencie todas as suas movimentações financeiras</p>
@@ -275,8 +275,9 @@ export default function Transactions() {
                     </Button>
                   </div>
                 )}
-                <Table>
-                <TableHeader>
+                <div className="overflow-x-auto">
+                  <Table>
+                  <TableHeader>
                   <TableRow>
                     <TableHead>Data</TableHead>
                     <TableHead>Descrição</TableHead>
@@ -302,7 +303,7 @@ export default function Transactions() {
                         </Select>
                       </div>
                     </TableHead>
-                    <TableHead>Método</TableHead>
+                    <TableHead className="hidden sm:table-cell">Método</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">
                       <Button
@@ -339,11 +340,11 @@ export default function Transactions() {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium">{transaction.description}</TableCell>
-                      <TableCell>
+                      <TableCell className="font-medium max-w-[160px] truncate">{transaction.description}</TableCell>
+                      <TableCell className="max-w-[120px] truncate">
                         {transaction.category.charAt(0).toUpperCase() + transaction.category.slice(1)}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell max-w-[120px] truncate">
                         {transaction.payment_method?.charAt(0).toUpperCase() +
                           transaction.payment_method?.slice(1)}
                       </TableCell>
@@ -416,7 +417,8 @@ export default function Transactions() {
                     </TableRow>
                   ))}
                 </TableBody>
-              </Table>
+                  </Table>
+                </div>
               </>
             )}
           </Card>
